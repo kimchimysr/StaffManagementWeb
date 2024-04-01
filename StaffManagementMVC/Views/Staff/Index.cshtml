@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StaffManagementMVC.Models.Staff>
+﻿@model IList<StaffManagementMVC.Models.Staff>
 
 @{
 	ViewData["Title"] = "Staff Management";
@@ -14,13 +14,54 @@
 				</a>
 			</div>
 
-			<div class="col-md-6 d-flex justify-content-end">
-			<a asp-controller="Staff" asp-action="ExportStaffToExcel" class="col-md-6 btn btn-secondary me-2">
-				Export to Excel
-			</a>
-				<a asp-controller="Staff" asp-action="ExportStaffToPdf" class="col-md-6 btn btn-secondary ms-2">
-				Export to PDF
-			</a>
+			<div class="col-md-6 d-flex justify-content-end mb-2">
+				<div class="me-2">
+					@using (Html.BeginForm("ExportStaffToExcel", "Staff", FormMethod.Post))
+					{
+						@for (var i = 0; i < (Model ?? new List<Staff>()).Count; i++)
+						{
+							<tr>
+								<td>
+									@Html.HiddenFor(x => Model[i].StaffId)
+								</td>
+								<td>
+									@Html.HiddenFor(x => Model[i].FullName)
+								</td>
+								<td>
+									@Html.HiddenFor(x => Model[i].Birthday)
+								</td>
+								<td>
+									@Html.HiddenFor(x => Model[i].Gender)
+								</td>
+							</tr>
+						}
+						<center><input class="btn btn-secondary" type="submit" value="Export to Excel" /></center>
+					}
+				</div>
+
+				<div class="ms-2">
+					@using (Html.BeginForm("ExportStaffToPDF", "Staff", FormMethod.Post))
+					{
+						@for (var i = 0; i < (Model ?? new List<Staff>()).Count; i++)
+						{
+							<tr>
+								<td>
+									@Html.HiddenFor(x => Model[i].StaffId)
+								</td>
+								<td>
+									@Html.HiddenFor(x => Model[i].FullName)
+								</td>
+								<td>
+									@Html.HiddenFor(x => Model[i].Birthday)
+								</td>
+								<td>
+									@Html.HiddenFor(x => Model[i].Gender)
+								</td>
+							</tr>
+						}
+						<center><input class="btn btn-secondary" type="submit" value="Export to PDF" /></center>
+					}
+				</div>
 			</div>
 		</div>
 
@@ -28,16 +69,16 @@
 			<thead>
 				<tr>
 					<th class="text-center">
-						@Html.DisplayNameFor(model => model.StaffId)
+						@Html.DisplayNameFor(model => model[0].StaffId)
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.FullName)
+						@Html.DisplayNameFor(model => model[0].FullName)
 					</th>
 					<th class="text-center">
-						@Html.DisplayNameFor(model => model.Birthday)
+						@Html.DisplayNameFor(model => model[0].Birthday)
 					</th>
 					<th class="text-center">
-						@Html.DisplayNameFor(model => model.Gender)
+						@Html.DisplayNameFor(model => model[0].Gender)
 					</th>
 					<th class="text-center">
 						<a asp-controller="Staff" asp-action="Add" class="btn btn-sm btn-success w-75">
@@ -47,20 +88,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var staff in Model ?? Enumerable.Empty<Staff>())
+				@for (var i = 0; i < (Model ?? new List<Staff>()).Count; i++)
 				{
 					<tr>
 						<td class="text-center">
-							@staff.StaffId
+							@Model?[i].StaffId
 						</td>
 						<td>
-							@staff.FullName
+							@Model?[i].FullName
 						</td>
 						<td class="text-center">
-							@staff.Birthday.ToString("dd/MM/yyyy")
+							@Model?[i].Birthday.ToString("dd/MM/yyyy")
 						</td>
 						<td class="text-center">
-							@if (staff.Gender == 1)
+							@if (@Model?[i].Gender == 1)
 							{
 								<text>Male</text>
 							}
@@ -71,9 +112,9 @@
 						</td>
 						<td class="text-center">
 							<div>
-								<a asp-controller="Staff" asp-action="Edit" asp-route-id="@staff.StaffId" class="btn btn-info text-white">Update</a>
+								<a asp-controller="Staff" asp-action="Edit" asp-route-id="@Model?[i].StaffId" class="btn btn-info text-white">Update</a>
 								<a onclick="return confirm('Are you sure you want to delete this record?')"
-								   asp-controller="Staff" asp-action="Delete" asp-route-id="@staff.StaffId" class="btn btn-danger">Delete</a>
+								   asp-controller="Staff" asp-action="Delete" asp-route-id="@Model?[i].StaffId" class="btn btn-danger">Delete</a>
 							</div>
 						</td>
 					</tr>
@@ -81,7 +122,7 @@
 				@if (Model == null)
 				{
 					<tr>
-						No data found
+						<td>No data found</td>
 					</tr>
 				}
 			</tbody>

@@ -108,23 +108,12 @@ namespace StaffManagementMVC.Controllers
 			return View();
 		}
 
-		[HttpGet]
-		public async Task<FileResult> ExportStaffToExcel(StaffQueryCriteria? query)
+		[HttpPost]
+		public FileResult ExportStaffToExcel(IList<Staff> staffs)
 		{
 			var fileName = "StaffList.xlsx";
 
-			var client = _httpClientFactory.CreateClient();
-			var url = AdvanceSearchHelper.GenerateSearchStaffUrl(query);
-			var response = await client.GetAsync(url);
-			if (response.StatusCode == System.Net.HttpStatusCode.OK)
-			{
-				var jsonData = await response.Content.ReadAsStringAsync();
-				var result = JsonConvert.DeserializeObject<List<Staff>>(jsonData);
-				if (result != null)
-					return GenerateExcel(fileName, result);
-
-			}
-			return GenerateExcel(fileName, new List<Staff>());
+			return GenerateExcel(fileName, staffs);
 		}
 
 		private FileResult GenerateExcel(string fileName, IEnumerable<Staff> staffs)
@@ -160,26 +149,15 @@ namespace StaffManagementMVC.Controllers
 			}
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> ExportStaffToPdf(StaffQueryCriteria? query)
+		[HttpPost]
+		public IActionResult ExportStaffToPdf(IList<Staff> staffs)
 		{
 			var fileName = "StaffList.pdf";
 
-			var client = _httpClientFactory.CreateClient();
-			var url = AdvanceSearchHelper.GenerateSearchStaffUrl(query);
-			var response = await client.GetAsync(url);
-			if (response.StatusCode == System.Net.HttpStatusCode.OK)
-			{
-				var jsonData = await response.Content.ReadAsStringAsync();
-				var result = JsonConvert.DeserializeObject<List<Staff>>(jsonData);
-				if (result != null)
-					return File(GeneratePDF(result), "application/pdf", fileName);
-
-			}
-			return File(GeneratePDF(new List<Staff>()), "application/pdf", fileName);
+			return File(GeneratePDF(staffs), "application/pdf", fileName);
 		}
 
-		private byte[] GeneratePDF(List<Staff> staffs)
+		private byte[] GeneratePDF(IEnumerable<Staff> staffs)
 		{
 			//Define your memory stream which will temporarily hold the PDF
 			using (MemoryStream stream = new MemoryStream())
