@@ -1,0 +1,63 @@
+﻿@model StaffManagementMVC.Models.StaffQueryCriteria
+
+@{
+    ViewData["Title"] = "Search Staff";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Search Staff</h1>
+        <form asp-controller="Staff" asp-action="Index" method="get" autocomplete="off">
+            <div  class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StaffId" class="control-label"></label>
+                <input asp-for="StaffId" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="BirthdayFromDate" class="control-label"></label>
+                        <input asp-for="BirthdayFromDate" class="form-control" type="date" />
+                        <span  class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="BirthdayToDate" class="control-label"></label>
+                        <input asp-for="BirthdayToDate" class="form-control" type="date" />
+                        <span  class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="0">All</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Search" class="btn btn-primary w-100" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <a asp-action="Index" class="btn btn-secondary  w-100">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@* @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+} *@
