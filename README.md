@@ -49,3 +49,9 @@ private static readonly string _serverName = "http://localhost:8081";
 * Entity Framework Core 6
 * ClosedXML v0.102.2 (Export to Excel)
 * itext7 v7.2.6 (Export to PDF)
+
+**Screenshot**
+* API
+![API](https://github.com/kimchimysr/StaffManagementWeb/assets/110892457/046709a8-fb4a-4b49-ba21-2f19a2b56310)
+* MVC
+![MVC](https://github.com/kimchimysr/StaffManagementWeb/assets/110892457/ed49f603-e4f6-4135-bca3-d2a86b6cb827)
